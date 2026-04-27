@@ -6,6 +6,7 @@ require("dotenv").config();
 // from other origins during local development or frontend integration.
 const express = require("express");
 const cors = require("cors");
+const connectDB = require("./config/db");
 
 // Create the Express application instance that will hold middleware,
 // routes, and the server startup logic.
@@ -26,6 +27,8 @@ app.get("/api/health", (req, res) => {
 // so the app still runs locally when no PORT value is provided.
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+connectDB().then(() => {
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
 });
